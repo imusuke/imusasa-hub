@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="куЇЖ">
+  <rect width="32" height="32" rx="8" fill="#f4f9fb" />
+  <circle cx="11" cy="11" r="3.2" fill="#0d5c7d" />
+  <circle cx="21" cy="11" r="3.2" fill="#4d7a57" />
+  <circle cx="16" cy="21" r="3.2" fill="#73b8d2" />
+  <path
+    d="M14 12.5h4M13.2 13.8l2.8 5M18.8 13.8l-2.8 5"
+    stroke="#17212b"
+    stroke-width="1.1"
+    stroke-linecap="round"
+    opacity="0.28"
+  />
+</svg>
