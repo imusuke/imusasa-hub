@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Gateway</title>
+  <style>
+    :root {
+      --bg: #eef3f6;
+      --ink: #17212b;
+      --muted: #576575;
+      --line: rgba(23, 33, 43, 0.1);
+      --panel: rgba(255, 255, 255, 0.82);
+      --panel-strong: rgba(255, 255, 255, 0.94);
+      --blue: #0d5c7d;
+      --green: #4d7a57;
+      --shadow: 0 24px 60px rgba(23, 33, 43, 0.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(115, 184, 210, 0.45), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(170, 205, 165, 0.5), transparent 24%),
+        linear-gradient(160deg, #f8fbfc 0%, var(--bg) 55%, #e8eef1 100%);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    main {
+      width: min(1080px, 100%);
+      background: linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.62));
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 40px 28px 24px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--blue);
+    }
+
+    h1 {
+      margin: 12px 0 14px;
+      font-size: clamp(2.4rem, 5vw, 4.8rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 52rem;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1rem;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      padding: 0 28px 28px;
+    }
+
+    .card {
+      display: grid;
+      gap: 18px;
+      align-content: space-between;
+      min-height: 290px;
+      padding: 24px;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      right: -48px;
+      bottom: -48px;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      opacity: 0.7;
+    }
+
+    .card.travel::after {
+      background: radial-gradient(circle, rgba(115, 184, 210, 0.8), transparent 65%);
+    }
+
+    .card.project::after {
+      background: radial-gradient(circle, rgba(170, 205, 165, 0.8), transparent 65%);
+    }
+
+    .tag {
+      width: fit-content;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: var(--panel-strong);
+      border: 1px solid rgba(23, 33, 43, 0.08);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.8rem;
+      line-height: 1.1;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .body {
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .meta span {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(23, 33, 43, 0.08);
+      font-size: 0.88rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    a.button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    a.primary {
+      color: #fff;
+      background: linear-gradient(135deg, #0f435a, var(--blue));
+      box-shadow: 0 14px 30px rgba(13, 92, 125, 0.24);
+    }
+
+    a.secondary {
+      color: var(--ink);
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid rgba(23, 33, 43, 0.1);
+    }
+
+    a.button:hover,
+    a.button:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .footer {
+      padding: 0 28px 28px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    code {
+      font-family: Consolas, "Courier New", monospace;
+    }
+
+    @media (max-width: 760px) {
+      .hero {
+        padding: 28px 18px 20px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+        padding: 0 18px 18px;
+      }
+
+      .footer {
+        padding: 0 18px 22px;
+      }
+
+      .card {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <p class="eyebrow">Gateway</p>
+      <h1>Vercel 公開用の入口ページ</h1>
+      <p class="lead">
+        このページから、Vercel に公開した <code>アイスランド旅行</code> と
+        <code>odawara-intro</code> に移動できます。
+      </p>
+    </section>
+
+    <section class="cards" aria-label="Project links">
+      <article class="card travel">
+        <div>
+          <p class="tag">Travel</p>
+          <h2>アイスランド旅行</h2>
+          <p class="body">
+            旅行ルートを確認する公開ページです。トップ画面がそのまま地図になっているので、1クリックで直接開けます。
+          </p>
+        </div>
+
+        <div class="meta" aria-label="Travel details">
+          <span>Iceland</span>
+          <span>Vercel</span>
+          <span>Route map</span>
+        </div>
+
+        <div class="actions">
+          <a class="button primary" href="https://2026-iceland.vercel.app/" target="_blank" rel="noreferrer">アイスランド旅行を開く</a>
+        </div>
+      </article>
+
+      <article class="card project">
+        <div>
+          <p class="tag">Project</p>
+          <h2>odawara-intro</h2>
+          <p class="body">
+            小田原紹介の公開ページです。こちらもトップ画面が地図なので、重複リンクを省いてシンプルにしています。
+          </p>
+        </div>
+
+        <div class="meta" aria-label="Project details">
+          <span>Sibling project</span>
+          <span>Vercel</span>
+          <span>Map top</span>
+        </div>
+
+        <div class="actions">
+          <a class="button primary" href="https://workspace-ten-blond.vercel.app/" target="_blank" rel="noreferrer">odawara-intro を開く</a>
+        </div>
+      </article>
+    </section>
+
+    <p class="footer">
+      もし実際の本番URLが別ドメインなら、このファイル内の <code>vercel.app</code> リンクだけ差し替えれば使えます。
+    </p>
+  </main>
+</body>
+</html>
