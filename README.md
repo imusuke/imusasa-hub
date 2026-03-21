@@ -1,4 +1,4 @@
-# travel-project-hub
+# imusasa-hub
 
 Vercel で公開するためのシンプルな入口ページです。
 
@@ -13,7 +13,7 @@ Vercel で公開するためのシンプルな入口ページです。
 
 ## GitHub から Vercel に公開する流れ
 
-1. GitHub で `travel-project-hub` リポジトリを新規作成
+1. GitHub で `imusasa-hub` リポジトリを新規作成
 2. このフォルダをそのリポジトリに push
 3. Vercel でその GitHub リポジトリを Import
 4. Root Directory はこのまま、追加設定なしで Deploy
