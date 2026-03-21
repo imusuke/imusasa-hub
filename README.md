@@ -6,6 +6,7 @@ Vercel で公開するためのシンプルな入口ページです。
 
 - Iceland trip: `https://2026-iceland.vercel.app/`
 - odawara-intro: `https://workspace-ten-blond.vercel.app/`
+- planting（植栽メモ）: `https://planting-imusuke.vercel.app/`
 
 ## ローカル確認
 

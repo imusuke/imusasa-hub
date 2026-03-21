@@ -75,7 +75,7 @@
 
     .cards {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 18px;
       padding: 0 28px 28px;
     }
@@ -110,6 +110,10 @@
 
     .card.project::after {
       background: radial-gradient(circle, rgba(170, 205, 165, 0.8), transparent 65%);
+    }
+
+    .card.planting::after {
+      background: radial-gradient(circle, rgba(200, 175, 120, 0.75), transparent 65%);
     }
 
     .tag {
@@ -177,6 +181,11 @@
       box-shadow: 0 14px 30px rgba(13, 92, 125, 0.24);
     }
 
+    a.primary--green {
+      background: linear-gradient(135deg, #2d4a35, var(--green));
+      box-shadow: 0 14px 30px rgba(77, 122, 87, 0.26);
+    }
+
     a.secondary {
       color: var(--ink);
       background: rgba(255, 255, 255, 0.84);
@@ -186,16 +195,6 @@
     a.button:hover,
     a.button:focus-visible {
       transform: translateY(-2px);
-    }
-
-    .footer {
-      padding: 0 28px 28px;
-      color: var(--muted);
-      font-size: 0.92rem;
-    }
-
-    code {
-      font-family: Consolas, "Courier New", monospace;
     }
 
     @media (max-width: 760px) {
@@ -208,10 +207,6 @@
         padding: 0 18px 18px;
       }
 
-      .footer {
-        padding: 0 18px 22px;
-      }
-
       .card {
         min-height: auto;
       }
@@ -222,10 +217,9 @@
   <main>
     <section class="hero">
       <p class="eyebrow">Gateway</p>
-      <h1>Vercel 公開用の入口ページ</h1>
+      <h1>リンク集</h1>
       <p class="lead">
-        このページから、Vercel に公開した <code>アイスランド旅行</code> と
-        <code>odawara-intro</code> に移動できます。
+        アイスランド旅行、小田原の紹介、自宅まわりの植栽一覧と成長記録へ移動できます。
       </p>
     </section>
 
@@ -235,13 +229,12 @@
           <p class="tag">Travel</p>
           <h2>アイスランド旅行</h2>
           <p class="body">
-            旅行ルートを確認する公開ページです。トップ画面がそのまま地図になっているので、1クリックで直接開けます。
+            旅程の地図を確認できるページです。
           </p>
         </div>
 
         <div class="meta" aria-label="Travel details">
           <span>Iceland</span>
-          <span>Vercel</span>
           <span>Route map</span>
         </div>
 
@@ -255,25 +248,40 @@
           <p class="tag">Project</p>
           <h2>odawara-intro</h2>
           <p class="body">
-            小田原紹介の公開ページです。こちらもトップ画面が地図なので、重複リンクを省いてシンプルにしています。
+            小田原を紹介するページです。
           </p>
         </div>
 
         <div class="meta" aria-label="Project details">
-          <span>Sibling project</span>
-          <span>Vercel</span>
-          <span>Map top</span>
+          <span>Odawara</span>
+          <span>Japan</span>
         </div>
 
         <div class="actions">
           <a class="button primary" href="https://workspace-ten-blond.vercel.app/" target="_blank" rel="noreferrer">odawara-intro を開く</a>
         </div>
       </article>
+
+      <article class="card planting">
+        <div>
+          <p class="tag">Planting</p>
+          <h2>植栽メモ</h2>
+          <p class="body">
+            エリア別の植栽一覧と、写真・メモ付きの成長記録です。
+          </p>
+        </div>
+
+        <div class="meta" aria-label="Planting details">
+          <span>Garden</span>
+          <span>Plants</span>
+        </div>
+
+        <div class="actions">
+          <a class="button primary primary--green" href="https://planting-imusuke.vercel.app/" target="_blank" rel="noreferrer">植栽メモを開く</a>
+        </div>
+      </article>
     </section>
 
-    <p class="footer">
-      もし実際の本番URLが別ドメインなら、このファイル内の <code>vercel.app</code> リンクだけ差し替えれば使えます。
-    </p>
   </main>
 </body>
 </html>
