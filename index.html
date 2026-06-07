@@ -3,21 +3,28 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#0d5c7d" />
-  <title>Project Gateway</title>
+  <meta name="theme-color" content="#1f4d5d" />
+  <title>Imusasa PARA Hub</title>
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" sizes="any" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
   <style>
     :root {
-      --bg: #eef3f6;
-      --ink: #17212b;
-      --muted: #576575;
-      --line: rgba(23, 33, 43, 0.1);
-      --panel: rgba(255, 255, 255, 0.82);
-      --panel-strong: rgba(255, 255, 255, 0.94);
-      --blue: #0d5c7d;
-      --green: #4d7a57;
-      --shadow: 0 24px 60px rgba(23, 33, 43, 0.14);
+      color-scheme: light;
+      --bg: #f5f7f6;
+      --surface: #ffffff;
+      --surface-soft: #eef4f2;
+      --ink: #1d2528;
+      --muted: #5f6d72;
+      --line: #d8e0de;
+      --line-strong: #bcc9c6;
+      --project: #245f73;
+      --area: #6a6735;
+      --resource: #735340;
+      --archive: #6e5a86;
+      --good: #23715a;
+      --warn: #9a5d20;
+      --idle: #6d7277;
+      --shadow: 0 12px 28px rgba(29, 37, 40, 0.08);
     }
 
     * {
@@ -26,265 +33,852 @@
 
     body {
       margin: 0;
-      min-height: 100vh;
+      min-height: 100dvh;
       font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
       color: var(--ink);
-      background:
-        radial-gradient(circle at top left, rgba(115, 184, 210, 0.45), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(170, 205, 165, 0.5), transparent 24%),
-        linear-gradient(160deg, #f8fbfc 0%, var(--bg) 55%, #e8eef1 100%);
+      background: var(--bg);
+    }
+
+    a {
+      color: inherit;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .shell {
+      min-height: 100dvh;
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100dvh;
+      padding: 20px 18px;
+      border-right: 1px solid var(--line);
+      background: #fbfcfb;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .brand {
+      display: grid;
+      gap: 8px;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
       display: grid;
       place-items: center;
-      padding: 24px;
-    }
-
-    main {
-      width: min(1080px, 100%);
-      background: linear-gradient(160deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.62));
-      border: 1px solid rgba(255, 255, 255, 0.7);
-      border-radius: 28px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(14px);
-      overflow: hidden;
-    }
-
-    .hero {
-      padding: 40px 28px 24px;
-    }
-
-    .eyebrow {
-      margin: 0;
-      text-transform: uppercase;
-      letter-spacing: 0.22em;
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: var(--blue);
+      color: #ffffff;
+      background: #1f4d5d;
+      font-weight: 800;
     }
 
     h1 {
-      margin: 12px 0 14px;
-      font-size: clamp(2.4rem, 5vw, 4.8rem);
-      line-height: 0.95;
-      letter-spacing: -0.04em;
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.15;
+      letter-spacing: 0;
     }
 
-    .lead {
-      margin: 0;
-      max-width: 52rem;
+    .subtitle,
+    .side-note,
+    .muted {
       color: var(--muted);
-      line-height: 1.8;
-      font-size: 1rem;
     }
 
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 18px;
-      padding: 0 28px 28px;
-    }
-
-    .card {
-      display: grid;
-      gap: 18px;
-      align-content: space-between;
-      min-height: 290px;
-      padding: 24px;
-      border-radius: 24px;
-      border: 1px solid var(--line);
-      background: var(--panel);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card::after {
-      content: "";
-      position: absolute;
-      right: -48px;
-      bottom: -48px;
-      width: 180px;
-      height: 180px;
-      border-radius: 50%;
-      opacity: 0.7;
-    }
-
-    .card.travel::after {
-      background: radial-gradient(circle, rgba(115, 184, 210, 0.8), transparent 65%);
-    }
-
-    .card.project::after {
-      background: radial-gradient(circle, rgba(170, 205, 165, 0.8), transparent 65%);
-    }
-
-    .card.planting::after {
-      background: radial-gradient(circle, rgba(200, 175, 120, 0.75), transparent 65%);
-    }
-
-    .tag {
-      width: fit-content;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--panel-strong);
-      border: 1px solid rgba(23, 33, 43, 0.08);
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    h2 {
+    .subtitle {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+    }
+
+    .nav button,
+    .link-button {
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      color: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 0 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .nav button[aria-pressed="true"] {
+      border-color: #1f4d5d;
+      background: #e6f0ef;
+      color: #173f4d;
+      font-weight: 700;
+    }
+
+    .count {
+      min-width: 26px;
+      min-height: 24px;
+      padding: 2px 7px;
+      border-radius: 8px;
+      display: inline-grid;
+      place-items: center;
+      background: var(--surface-soft);
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
+    .side-block {
+      display: grid;
+      gap: 8px;
+    }
+
+    .side-title {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      font-weight: 800;
+    }
+
+    .side-note {
+      margin: 0;
+      font-size: 0.82rem;
+      line-height: 1.55;
+    }
+
+    main {
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(245, 247, 246, 0.94);
+      backdrop-filter: blur(10px);
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) 180px 180px;
+      gap: 12px;
+    }
+
+    .field {
+      min-height: 42px;
+      width: 100%;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--ink);
+      padding: 0 12px;
+    }
+
+    .content {
+      padding: 22px 24px 32px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .overview {
+      display: grid;
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: 16px;
+      align-items: stretch;
+    }
+
+    .summary,
+    .next-actions {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .summary h2,
+    .next-actions h2 {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      letter-spacing: 0;
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric {
+      border-left: 4px solid var(--line-strong);
+      padding: 8px 10px;
+      background: #f8faf9;
+      min-width: 0;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 1.4rem;
       line-height: 1.1;
     }
 
-    p {
-      margin: 0;
+    .metric span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.8rem;
+      overflow-wrap: anywhere;
     }
 
-    .body {
+    .action-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .action-list li {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 8px;
+      align-items: start;
       color: var(--muted);
-      line-height: 1.75;
+      font-size: 0.88rem;
+      line-height: 1.4;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      margin-top: 6px;
+      border-radius: 50%;
+      background: var(--warn);
+    }
+
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      min-width: 0;
+      display: grid;
+      grid-template-rows: auto auto minmax(0, 1fr) auto;
+      overflow: hidden;
+      box-shadow: 0 8px 18px rgba(29, 37, 40, 0.06);
+    }
+
+    .thumb {
+      height: 86px;
+      border-bottom: 1px solid var(--line);
+      background: #e8eeec;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+    }
+
+    .thumb-panel {
+      padding: 10px;
+      display: grid;
+      align-content: end;
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 800;
+      line-height: 1.15;
+      overflow-wrap: anywhere;
+    }
+
+    .thumb-project .thumb-panel:nth-child(1) { background: var(--project); }
+    .thumb-project .thumb-panel:nth-child(2) { background: #7c9aa0; }
+    .thumb-area .thumb-panel:nth-child(1) { background: var(--area); }
+    .thumb-area .thumb-panel:nth-child(2) { background: #9a9561; }
+    .thumb-resource .thumb-panel:nth-child(1) { background: var(--resource); }
+    .thumb-resource .thumb-panel:nth-child(2) { background: #a77c62; }
+    .thumb-archive .thumb-panel:nth-child(1) { background: var(--archive); }
+    .thumb-archive .thumb-panel:nth-child(2) { background: #9581a8; }
+
+    .card-body {
+      padding: 14px;
+      display: grid;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .kicker {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .para {
+      color: #ffffff;
+      border-radius: 6px;
+      padding: 4px 7px;
+      line-height: 1;
+    }
+
+    .para.project { background: var(--project); }
+    .para.area { background: var(--area); }
+    .para.resource { background: var(--resource); }
+    .para.archive { background: var(--archive); }
+
+    .card h3 {
+      margin: 0;
+      font-size: 1.06rem;
+      line-height: 1.25;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .description {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.55;
     }
 
     .meta {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 6px;
+      padding: 0 14px 14px;
     }
 
-    .meta span {
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.72);
-      border: 1px solid rgba(23, 33, 43, 0.08);
-      font-size: 0.88rem;
+    .chip {
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--muted);
+      background: #fbfcfb;
+      padding: 5px 7px;
+      font-size: 0.76rem;
+      line-height: 1.1;
     }
 
-    .actions {
+    .state {
+      font-weight: 800;
+    }
+
+    .state.live { color: var(--good); }
+    .state.watch { color: var(--warn); }
+    .state.idle { color: var(--idle); }
+
+    .links {
+      border-top: 1px solid var(--line);
+      padding: 10px 14px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 8px;
     }
 
-    a.button {
+    .links a {
+      min-height: 34px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 48px;
-      padding: 0 18px;
-      border-radius: 999px;
-      text-decoration: none;
-      font-weight: 700;
-      transition: transform 160ms ease, box-shadow 160ms ease;
-    }
-
-    a.primary {
-      color: #fff;
-      background: linear-gradient(135deg, #0f435a, var(--blue));
-      box-shadow: 0 14px 30px rgba(13, 92, 125, 0.24);
-    }
-
-    a.primary--green {
-      background: linear-gradient(135deg, #2d4a35, var(--green));
-      box-shadow: 0 14px 30px rgba(77, 122, 87, 0.26);
-    }
-
-    a.secondary {
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      padding: 0 10px;
       color: var(--ink);
-      background: rgba(255, 255, 255, 0.84);
-      border: 1px solid rgba(23, 33, 43, 0.1);
+      background: #ffffff;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 700;
     }
 
-    a.button:hover,
-    a.button:focus-visible {
-      transform: translateY(-2px);
+    .links a.primary {
+      border-color: #1f4d5d;
+      background: #1f4d5d;
+      color: #ffffff;
     }
 
-    @media (max-width: 760px) {
-      .hero {
-        padding: 28px 18px 20px;
-      }
+    .empty {
+      border: 1px dashed var(--line-strong);
+      border-radius: 8px;
+      padding: 28px;
+      color: var(--muted);
+      background: #ffffff;
+      text-align: center;
+      display: none;
+    }
 
-      .cards {
+    .empty.is-visible {
+      display: block;
+    }
+
+    @media (max-width: 1100px) {
+      .shell {
         grid-template-columns: 1fr;
-        padding: 0 18px 18px;
       }
 
-      .card {
-        min-height: auto;
+      aside {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .topbar,
+      .overview {
+        grid-template-columns: 1fr;
+      }
+
+      .board {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      aside,
+      .topbar,
+      .content {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .nav,
+      .summary-grid,
+      .board {
+        grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
-  <main>
-    <section class="hero">
-      <p class="eyebrow">Gateway</p>
-      <h1>リンク集</h1>
-      <p class="lead">
-        アイスランド旅行、小田原の紹介、自宅まわりの植栽一覧と成長記録へ移動できます。
-      </p>
-    </section>
-
-    <section class="cards" aria-label="Project links">
-      <article class="card travel">
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">P</div>
         <div>
-          <p class="tag">Travel</p>
-          <h2>アイスランド旅行</h2>
-          <p class="body">
-            旅程の地図を確認できるページです。
-          </p>
+          <h1>Imusasa PARA Hub</h1>
+          <p class="subtitle">SharePoint 同期フォルダと GitHub / Vercel の全体像を一覧する管理ボード</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="PARA filters">
+        <button type="button" data-para="all" aria-pressed="true">All <span class="count" id="count-all">0</span></button>
+        <button type="button" data-para="project">Projects <span class="count" id="count-project">0</span></button>
+        <button type="button" data-para="area">Areas <span class="count" id="count-area">0</span></button>
+        <button type="button" data-para="resource">Resources <span class="count" id="count-resource">0</span></button>
+        <button type="button" data-para="archive">Archives <span class="count" id="count-archive">0</span></button>
+      </nav>
+
+      <div class="side-block">
+        <p class="side-title">Source Root</p>
+        <p class="side-note">C:\Users\imura\OneDrive - 伊村宏之\ドキュメント\Codex</p>
+      </div>
+
+      <div class="side-block">
+        <p class="side-title">管理メモ</p>
+        <a class="link-button" href="../GITHUB_VERCEL_SYNC.md">GitHub / Vercel</a>
+        <a class="link-button" href="../manage_sources.ps1">状態確認スクリプト</a>
+      </div>
+    </aside>
+
+    <main>
+      <section class="topbar" aria-label="Search and filters">
+        <input id="search" class="field" type="search" placeholder="検索: project, GitHub, Vercel, folder..." />
+        <select id="status-filter" class="field" aria-label="Status filter">
+          <option value="all">すべての状態</option>
+          <option value="live">Live</option>
+          <option value="watch">要確認</option>
+          <option value="idle">保留</option>
+        </select>
+        <select id="sort-order" class="field" aria-label="Sort order">
+          <option value="para">PARA 順</option>
+          <option value="name">名前順</option>
+          <option value="status">状態順</option>
+        </select>
+      </section>
+
+      <section class="content">
+        <div class="overview">
+          <section class="summary" aria-label="Summary">
+            <h2>全体サマリー</h2>
+            <div class="summary-grid" id="summary-grid"></div>
+          </section>
+          <section class="next-actions" aria-label="Next actions">
+            <h2>次に確認したいこと</h2>
+            <ul class="action-list">
+              <li><span class="dot"></span><span>`index` と `odawara-intro` の未コミット変更を確認して commit / push する。</span></li>
+              <li><span class="dot"></span><span>Archive 化した `ippai-note`、`project-gateway`、`vibe-and-vintage` が不要なら関連メモも整理する。</span></li>
+              <li><span class="dot"></span><span>Vercel 上の残存プロジェクトが `Projects` / `Areas` に対応しているか定期的に棚卸しする。</span></li>
+            </ul>
+          </section>
         </div>
 
-        <div class="meta" aria-label="Travel details">
-          <span>Iceland</span>
-          <span>Route map</span>
-        </div>
+        <section class="board" id="board" aria-label="PARA board"></section>
+        <p class="empty" id="empty">条件に一致する項目がありません。</p>
+      </section>
+    </main>
+  </div>
 
-        <div class="actions">
-          <a class="button primary" href="https://2026-iceland.vercel.app/" target="_blank" rel="noreferrer">アイスランド旅行を開く</a>
-        </div>
-      </article>
+  <script>
+    (function () {
+      "use strict";
 
-      <article class="card project">
-        <div>
-          <p class="tag">Project</p>
-          <h2>odawara-intro</h2>
-          <p class="body">
-            小田原を紹介するページです。
-          </p>
-        </div>
+      var sourceRoot = "C:\\Users\\imura\\OneDrive - 伊村宏之\\ドキュメント\\Codex";
+      var items = [
+        {
+          para: "project",
+          status: "live",
+          type: "Vercel App",
+          name: "imusasa-hub",
+          folder: "index",
+          description: "この一覧サイト。PARA と GitHub / Vercel の入口をまとめる中核ハブ。",
+          github: "https://github.com/imusuke/imusasa-hub",
+          vercel: "https://imusasa-hub-pi.vercel.app",
+          local: "./index.html",
+          tags: ["GitHub連携", "Vercel", "未コミットあり"]
+        },
+        {
+          para: "project",
+          status: "live",
+          type: "Vercel App",
+          name: "planting-memo",
+          folder: "planting",
+          description: "植栽・成長記録を扱う庭管理アプリ。Blob / KV 連携を含む。",
+          github: "https://github.com/imusuke/planting",
+          vercel: "https://planting-three.vercel.app",
+          local: "../planting/index.html",
+          tags: ["Garden", "Blob", "KV"]
+        },
+        {
+          para: "project",
+          status: "live",
+          type: "Vercel App",
+          name: "iceland-trip-2026",
+          folder: "iceland-trip",
+          description: "アイスランド旅行の地図、旅程、記録をまとめる旅行プロジェクト。",
+          github: "https://github.com/imusuke/iceland-gw-2026-map",
+          vercel: "https://2026-iceland.vercel.app",
+          local: "../iceland-trip/index.html",
+          tags: ["Travel", "Route", "Journal"]
+        },
+        {
+          para: "project",
+          status: "watch",
+          type: "Vercel App",
+          name: "odawara-minamicho-map",
+          folder: "odawara-intro",
+          description: "小田原・南町周辺の紹介と地図。未コミット変更があるため確認対象。",
+          github: "https://github.com/imusuke/odawara-intro",
+          vercel: "https://odawara-intro.vercel.app",
+          local: "../odawara-intro/index.html",
+          tags: ["Map", "History", "未コミットあり"]
+        },
+        {
+          para: "project",
+          status: "live",
+          type: "Vercel App",
+          name: "agentic-vision-demo",
+          folder: "agentic vision",
+          description: "画像アップロードと Gemini Vision 分析のデモアプリ。",
+          github: "https://github.com/imusuke/agentic-vision",
+          vercel: "https://agentic-vision.vercel.app",
+          local: "../agentic vision/views/app.html",
+          tags: ["Vision", "Gemini", "Auth"]
+        },
+        {
+          para: "archive",
+          status: "idle",
+          type: "Archived App",
+          name: "vibe-and-vintage",
+          folder: "_archive/vibe-and-vintage",
+          description: "Next.js ベースの候補プロジェクト。利用頻度が低いためローカル Archive に移動。",
+          local: "../_archive/vibe-and-vintage",
+          tags: ["Next.js", "Archived", "Local only"]
+        },
+        {
+          para: "project",
+          status: "live",
+          type: "Static Publish",
+          name: "vercel_public",
+          folder: "solar-monitor集計/vercel_public",
+          description: "太陽光・電力・環境データの公開スナップショット。GitHub ではなく CLI 直接公開。",
+          vercel: "https://vercelpublic-omega.vercel.app",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa/10_Projects/solar-monitor集計/vercel_public/index.html",
+          tags: ["Solar", "CLI deploy", "自動公開"]
+        },
+        {
+          para: "archive",
+          status: "idle",
+          type: "Archived Vercel App",
+          name: "ippai-note",
+          folder: "未確認",
+          description: "利用頻度が低くソース位置も未確認のため、Vercel 公開を停止して Archive 扱い。",
+          tags: ["Vercel削除", "Source未確認"]
+        },
+        {
+          para: "archive",
+          status: "idle",
+          type: "Archived Vercel App",
+          name: "project-gateway",
+          folder: "未確認",
+          description: "PARA Hub と役割が重複するため、Vercel 公開を停止して Archive 扱い。",
+          tags: ["Vercel削除", "Hub重複"]
+        },
+        {
+          para: "area",
+          status: "live",
+          type: "Ongoing Area",
+          name: "Solar Monitor",
+          folder: "imusasa/10_Projects/solar-monitor集計",
+          description: "太陽光・Nature Remo・SwitchBot・LIXIL データを継続収集する運用領域。",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa/10_Projects/solar-monitor集計/README_dashboard.md",
+          tags: ["Energy", "Home", "Automation"]
+        },
+        {
+          para: "area",
+          status: "live",
+          type: "Ongoing Area",
+          name: "Plant Care",
+          folder: "imusasa/20_Areas/植物管理記録",
+          description: "植栽の観察、写真、配置、手入れを継続管理する生活領域。",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa/20_Areas/植物管理記録",
+          tags: ["Garden", "Photos", "Records"]
+        },
+        {
+          para: "area",
+          status: "live",
+          type: "Ongoing Area",
+          name: "Travel Planning",
+          folder: "imusasa/バリ島旅行計画",
+          description: "旅行計画、候補地、予約、記録を横断して扱う領域。",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa/バリ島旅行計画",
+          tags: ["Trip", "Planning"]
+        },
+        {
+          para: "resource",
+          status: "live",
+          type: "Reference",
+          name: "GitHub / Vercel Sync Memo",
+          folder: "Codex/GITHUB_VERCEL_SYNC.md",
+          description: "SharePoint 同期フォルダ、GitHub remote、Vercel project の対応表。",
+          local: "../GITHUB_VERCEL_SYNC.md",
+          tags: ["Ops", "GitHub", "Vercel"]
+        },
+        {
+          para: "resource",
+          status: "live",
+          type: "Script",
+          name: "manage_sources.ps1",
+          folder: "Codex/manage_sources.ps1",
+          description: "各ソースフォルダの Git 状態、remote、Vercel link を確認するスクリプト。",
+          local: "../manage_sources.ps1",
+          tags: ["PowerShell", "Status"]
+        },
+        {
+          para: "resource",
+          status: "live",
+          type: "Workspace",
+          name: "PARA Vault",
+          folder: "imusasa",
+          description: "00 Inbox / 10 Projects / 20 Areas / 30 Resources / 40 Archives の母艦。",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa",
+          tags: ["Obsidian", "PARA"]
+        },
+        {
+          para: "archive",
+          status: "idle",
+          type: "Archive",
+          name: "Dashboard Screenshots",
+          folder: "solar-monitor集計/*.png",
+          description: "太陽光ダッシュボードや Vercel 公開画面の過去スクリーンショット。",
+          local: "file:///C:/Users/imura/OneDrive/ドキュメント/imusasa/10_Projects/solar-monitor集計",
+          tags: ["Screenshots", "History"]
+        },
+        {
+          para: "archive",
+          status: "idle",
+          type: "Archive",
+          name: "Downloaded Solar Summaries",
+          folder: "Downloads/solar-*",
+          description: "過去に取得した solar-monitor summary.html の一時成果物。",
+          local: "file:///C:/Users/imura/Downloads",
+          tags: ["Downloads", "Reference"]
+        }
+      ];
 
-        <div class="meta" aria-label="Project details">
-          <span>Odawara</span>
-          <span>Japan</span>
-        </div>
+      var paraLabels = {
+        project: "Project",
+        area: "Area",
+        resource: "Resource",
+        archive: "Archive"
+      };
 
-        <div class="actions">
-          <a class="button primary" href="https://workspace-ten-blond.vercel.app/" target="_blank" rel="noreferrer">odawara-intro を開く</a>
-        </div>
-      </article>
+      var statusLabels = {
+        live: "Live",
+        watch: "要確認",
+        idle: "保留"
+      };
 
-      <article class="card planting">
-        <div>
-          <p class="tag">Planting</p>
-          <h2>植栽メモ</h2>
-          <p class="body">
-            エリア別の植栽一覧と、写真・メモ付きの成長記録です。
-          </p>
-        </div>
+      var board = document.getElementById("board");
+      var empty = document.getElementById("empty");
+      var search = document.getElementById("search");
+      var statusFilter = document.getElementById("status-filter");
+      var sortOrder = document.getElementById("sort-order");
+      var navButtons = Array.prototype.slice.call(document.querySelectorAll("[data-para]"));
+      var activePara = "all";
 
-        <div class="meta" aria-label="Planting details">
-          <span>Garden</span>
-          <span>Plants</span>
-        </div>
+      function setCounts() {
+        document.getElementById("count-all").textContent = items.length;
+        ["project", "area", "resource", "archive"].forEach(function (para) {
+          document.getElementById("count-" + para).textContent = items.filter(function (item) {
+            return item.para === para;
+          }).length;
+        });
+      }
 
-        <div class="actions">
-          <a class="button primary primary--green" href="https://planting-three.vercel.app/" target="_blank" rel="noreferrer">植栽メモを開く</a>
-        </div>
-      </article>
-    </section>
+      function renderSummary() {
+        var liveCount = items.filter(function (item) { return item.status === "live"; }).length;
+        var watchCount = items.filter(function (item) { return item.status === "watch"; }).length;
+        var githubCount = items.filter(function (item) { return item.github; }).length;
+        var vercelCount = items.filter(function (item) { return item.vercel; }).length;
 
-  </main>
+        var metrics = [
+          { value: items.length, label: "登録項目" },
+          { value: liveCount, label: "Live / 運用中" },
+          { value: watchCount, label: "要確認" },
+          { value: githubCount + "/" + vercelCount, label: "GitHub / Vercel" }
+        ];
+
+        var summary = document.getElementById("summary-grid");
+        summary.innerHTML = "";
+        metrics.forEach(function (metric) {
+          var el = document.createElement("div");
+          el.className = "metric";
+          el.innerHTML = "<strong>" + metric.value + "</strong><span>" + metric.label + "</span>";
+          summary.appendChild(el);
+        });
+      }
+
+      function itemText(item) {
+        return [
+          item.para,
+          item.status,
+          item.type,
+          item.name,
+          item.folder,
+          item.description,
+          item.github,
+          item.vercel,
+          item.local,
+          item.tags.join(" ")
+        ].join(" ").toLowerCase();
+      }
+
+      function sortItems(list) {
+        var order = { project: 1, area: 2, resource: 3, archive: 4 };
+        var statusOrder = { watch: 1, live: 2, idle: 3 };
+        var mode = sortOrder.value;
+        return list.slice().sort(function (a, b) {
+          if (mode === "name") {
+            return a.name.localeCompare(b.name, "ja");
+          }
+          if (mode === "status") {
+            return statusOrder[a.status] - statusOrder[b.status] || a.name.localeCompare(b.name, "ja");
+          }
+          return order[a.para] - order[b.para] || a.name.localeCompare(b.name, "ja");
+        });
+      }
+
+      function makeLink(label, href, primary) {
+        if (!href) return "";
+        return '<a ' + (primary ? 'class="primary" ' : "") + 'href="' + href + '" target="_blank" rel="noreferrer">' + label + "</a>";
+      }
+
+      function render() {
+        var query = search.value.trim().toLowerCase();
+        var statusValue = statusFilter.value;
+        var filtered = items.filter(function (item) {
+          if (activePara !== "all" && item.para !== activePara) return false;
+          if (statusValue !== "all" && item.status !== statusValue) return false;
+          if (query && itemText(item).indexOf(query) === -1) return false;
+          return true;
+        });
+
+        board.innerHTML = "";
+        sortItems(filtered).forEach(function (item) {
+          var card = document.createElement("article");
+          card.className = "card";
+          card.innerHTML =
+            '<div class="thumb thumb-' + item.para + '">' +
+              '<div class="thumb-panel">' + paraLabels[item.para] + "</div>" +
+              '<div class="thumb-panel">' + item.type + "</div>" +
+            "</div>" +
+            '<div class="card-body">' +
+              '<div class="kicker"><span class="para ' + item.para + '">' + paraLabels[item.para] + '</span><span class="state ' + item.status + '">' + statusLabels[item.status] + "</span></div>" +
+              "<h3>" + item.name + "</h3>" +
+              '<p class="description">' + item.description + "</p>" +
+            "</div>" +
+            '<div class="meta">' +
+              '<span class="chip">' + item.folder + "</span>" +
+              item.tags.map(function (tag) { return '<span class="chip">' + tag + "</span>"; }).join("") +
+            "</div>" +
+            '<div class="links">' +
+              makeLink("Open", item.vercel || item.local, true) +
+              makeLink("GitHub", item.github, false) +
+              makeLink("Local", item.local, false) +
+            "</div>";
+          board.appendChild(card);
+        });
+
+        empty.classList.toggle("is-visible", filtered.length === 0);
+      }
+
+      navButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          activePara = button.dataset.para;
+          navButtons.forEach(function (nav) {
+            nav.setAttribute("aria-pressed", String(nav === button));
+          });
+          render();
+        });
+      });
+
+      [search, statusFilter, sortOrder].forEach(function (control) {
+        control.addEventListener("input", render);
+        control.addEventListener("change", render);
+      });
+
+      setCounts();
+      renderSummary();
+      render();
+    })();
+  </script>
 </body>
 </html>
