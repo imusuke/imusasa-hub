@@ -123,6 +123,12 @@
       text-decoration: none;
     }
 
+    .link-button.disabled {
+      cursor: default;
+      color: var(--muted);
+      background: var(--surface-soft);
+    }
+
     .nav button[aria-pressed="true"] {
       border-color: #1f4d5d;
       background: #e6f0ef;
@@ -413,10 +419,37 @@
       font-weight: 700;
     }
 
+    .badge {
+      min-width: 26px;
+      min-height: 24px;
+      padding: 2px 7px;
+      border-radius: 8px;
+      display: inline-grid;
+      place-items: center;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+
     .links a.primary {
       border-color: #1f4d5d;
       background: #1f4d5d;
       color: #ffffff;
+    }
+
+    .links .disabled-link {
+      min-height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0 10px;
+      color: var(--muted);
+      background: var(--surface-soft);
+      font-size: 0.82rem;
+      font-weight: 700;
     }
 
     .empty {
@@ -503,8 +536,8 @@
 
       <div class="side-block">
         <p class="side-title">管理メモ</p>
-        <a class="link-button" href="../GITHUB_VERCEL_SYNC.md">GitHub / Vercel</a>
-        <a class="link-button" href="../manage_sources.ps1">状態確認スクリプト</a>
+        <span class="link-button disabled">GitHub / Vercel <span class="badge">Local</span></span>
+        <span class="link-button disabled">状態確認スクリプト <span class="badge">Local</span></span>
       </div>
     </aside>
 
@@ -753,6 +786,7 @@
       var sortOrder = document.getElementById("sort-order");
       var navButtons = Array.prototype.slice.call(document.querySelectorAll("[data-para]"));
       var activePara = "all";
+      var localLinksEnabled = window.location.protocol === "file:";
 
       function setCounts() {
         document.getElementById("count-all").textContent = items.length;
@@ -816,9 +850,26 @@
         });
       }
 
+      function isWebUrl(href) {
+        return /^https?:\/\//i.test(href || "");
+      }
+
+      function isSafeHref(href) {
+        if (!href) return false;
+        if (isWebUrl(href)) return true;
+        return localLinksEnabled;
+      }
+
       function makeLink(label, href, primary) {
         if (!href) return "";
+        if (!isSafeHref(href)) return '<span class="disabled-link">' + label + ": Local only</span>";
         return '<a ' + (primary ? 'class="primary" ' : "") + 'href="' + href + '" target="_blank" rel="noreferrer">' + label + "</a>";
+      }
+
+      function primaryHref(item) {
+        if (item.vercel) return item.vercel;
+        if (isSafeHref(item.local)) return item.local;
+        return "";
       }
 
       function render() {
@@ -850,7 +901,7 @@
               item.tags.map(function (tag) { return '<span class="chip">' + tag + "</span>"; }).join("") +
             "</div>" +
             '<div class="links">' +
-              makeLink("Open", item.vercel || item.local, true) +
+              makeLink("Open", primaryHref(item), true) +
               makeLink("GitHub", item.github, false) +
               makeLink("Local", item.local, false) +
             "</div>";
